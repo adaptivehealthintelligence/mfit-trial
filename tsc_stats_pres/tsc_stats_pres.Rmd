@@ -1,0 +1,101 @@
+---
+title: "M-FIT Trial"
+subtitle: "Statistical Aspects"
+date: "12 July 2021"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, "styles.css"]
+    self_contained: true
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# Primary Outcome
+
+- FACIT-Fatigue:
+    - 13 item Likert scale, each Likert item scored from 0 to 4 $\to$ 
+      total score from 0 to 52
+      
+    - comparison between intervention groups at 12-weeks post-randomisation
+--
+    - visit schedule: 
+    ![Schedule](facit-fatigue-visits.png)
+    
+    - longitudinal model for primary analysis
+    
+
+---
+
+background-image: url("facit-fatigue-scale.png")
+
+# FACIT-Fatigue Tool
+
+
+---
+
+# Modelling
+
+Longitudinal model to include repeat measurement occasions.
+
+- $\texttt{treat}$ - a treatment group (0: control, 1: walking, 2: resistance, 3: resistance + aerobic)
+
+- $\texttt{visit}$ - a FACIT-Fatigue measurement occasion (baseline, 4 weeks, 8 weeks, 12 weeks)
+
+- $\mu_{\texttt{treat}, \texttt{visit}}$ - mean FACIT-Fatigue at specific visit under specific treatment
+
+--
+
+Marginally, for a subject $i$, unstructured mean:
+$$\begin{aligned}Y_i &\sim \text{MVN}(\mu_{\texttt{treat}(i)},\Sigma)\\ \mu_{\texttt{treat},\texttt{visit}}&=\alpha+(\beta_{\texttt{visit}}+\xi_{\texttt{treat},\texttt{visit}})\times 1_{\texttt{visit}\ne\text{baseline}}\\ \alpha &\sim N(40, 5^2) \\ \beta_{\texttt{visit}} &\sim N(0, 5^2),\quad\texttt{visit}=4,8,12\\ \xi_{\texttt{treat},\texttt{visit}}&\sim N(0, 5^2),\quad\texttt{treat}=1,2,3,\ \texttt{visit}=4,8,12\end{aligned}$$
+
+---
+
+# Modelling (cont.)
+
+- interim analyses after 100, 200, 300 participants reach primary endpoint, final at 400
+
+- update primary model and assess quantities of interest:
+
+  - probability each active treatment better than all others, "**Pr(best)**"
+  
+  $$\text{Pr}\left[\xi_{\texttt{treat},\text{12 weeks}}-\max_{\texttt{treat}^\star\ne\texttt{treat}}\xi_{\texttt{treat}^\star,12 \text{weeks}}>0\right],\quad\texttt{treat}=1,2,3$$
+  
+  - probability each active treatment better than control, "**Pr(eff)**"
+  
+  $$\text{Pr}\left[\xi_{\texttt{treat},12\text{ weeks}}>0\right],\quad\texttt{treat}=1,2,3$$
+  
+  - update target allocations for active treatments, "**Pr(allocate)**": up-weight according to **Pr(best)**
+  
+  $$\text{Pr}(\texttt{treat}_i=k)\propto \text{Pr}(\text{best}=k)^{c}$$
+
+---
+
+# Example - Interim 1, n = 100
+
+![Interim 1](example_interim1.png)
+
+---
+
+# Example - Interim 2, n = 200
+
+![Interim 2](example_interim2.png)
+
+---
+
+# Example - Interim 3, n = 300
+
+![Interim 3](example_interim3.png)
+
+---
+
+# Example - Final, n = 400
+
+![Interim 4](example_interim4.png)
+
